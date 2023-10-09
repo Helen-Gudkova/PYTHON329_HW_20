@@ -1,6 +1,5 @@
 from typing import Any, Callable
 import csv
-
 def password_validator(length: int = 8, uppercase: int = 1, lowercase: int = 1, special_chars: int = 1) -> Callable:
     """
     Декоратор для валидации паролей.
