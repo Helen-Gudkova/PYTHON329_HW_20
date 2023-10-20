@@ -17,10 +17,13 @@ class CsvFileHandler:
                 :return: список списков или список словарей
                 """
         with open(filepath, 'r', newline='') as file:
-            reader = csv.reader(file)
-            if as_dict == True:
-                headers = next(reader)
-            elif as_dict == False:
+            if as_dict:
+                reader: Any = csv.DictReader(file)
+                data: List[Dict[str, str]] = []
+                for row in reader:
+                    data.append(dict(row))
+            else:
+                reader = csv.reader(file)
                 data = [row for row in reader]
         return data
 
