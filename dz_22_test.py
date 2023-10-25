@@ -1,5 +1,5 @@
 import json
-from typing import List, Optional
+from typing import List, Optional,Any
 from random import choice
 
 
@@ -32,7 +32,7 @@ class JsonFile:
         with open(filepath, 'w', encoding='UTF-8') as file:
             json.dump(data, file, ensure_ascii=False, indent=4)
 
-    def remove(self, computer_city):
+    def remove(self, computer_city: str) -> None:
         pass
 
 
@@ -42,7 +42,7 @@ class Cities:
         Содержит список всех городов
         """
 
-    def __init__(self,city_data: JsonFile) -> None:
+    def __init__(self, city_data: List[str]) -> None:
         """
             Конструктор класса `Cities`,
             который принимает список городов `city_data`
@@ -52,6 +52,9 @@ class Cities:
             """
         self.city_list = city_data
 
+    def remove(self, city_input: str) -> None:
+        pass
+
 
 class CityGame:
     """
@@ -59,6 +62,7 @@ class CityGame:
         он будет принимать экземпляр класса `Cities`
         в качестве аргумента
         """
+
     def __init__(self, cities: Cities) -> None:
         """
             Конструктор класса `CityGame`,
@@ -97,13 +101,13 @@ class CityGame:
                     print(city_input)
                     self.computer_turn()
             elif city_input not in self.cities.city_list:
-                    print("Такого города нет в списке!")
-                    self.game_over = True
-                    #self.check_game_over()
+                print("Такого города нет в списке!")
+                self.game_over = True
+                # self.check_game_over()
             else:
                 print("Город должен начинаться на последнюю букву предыдущего города!")
                 self.game_over = True
-                #self.check_game_over()
+                # self.check_game_over()
         else:
             print("Игра окончена!")
 
@@ -138,8 +142,7 @@ class CityGame:
             и определения победителя.
             :return: None
             """
-        if not self.cities.city_list or self.city_input != self.current_city and self.city_input != "" and self.city_input[0].lower() != \
-                self.current_city[-1]:
+        if not self.cities.city_list or not (not (self.city_input is not None and self.city_input != self.current_city) or not (self.city_input is not None and self.city_input != "") or not (self.city_input is not None and self.current_city is not None and self.city_input[0].lower() != self.current_city[-1])):
             self.game_over = True
             print("Игра окончена! Победил компьютер!")
         elif not self.current_city:
@@ -156,18 +159,18 @@ class GameManager:
        `Cities` и `CityGame` в качестве аргументов.
        """
 
-    def __init__(self, json_file: JsonFile, cities: Cities, city_game: CityGame) -> None:
+    def __init__(self, json_file_: List[str], cities: Cities, city_game: CityGame) -> None:
         """
             Конструктор класса `GameManager`,
             который принимает экземпляры классов `JsonFile`,
             `Cities` и `CityGame` в качестве аргументов
             и инициализирует результат игры
-            :param json_file: экземпляр класса `JsonFile`
+            :param json_file_: экземпляр класса `JsonFile`
             :param cities: экземпляр класса `Cities`
             :param city_game: экземпляр класса `CityGame`
             :return: None
             """
-        self.json_file: JsonFile = json_file
+        self.json_file: List[str] = json_file_
         self.cities: Cities = cities
         self.city_game: CityGame = city_game
 
@@ -209,16 +212,16 @@ class GameManager:
 if __name__ == "__main__":
     # Создайте экземпляры необходимых классов
     json_file = JsonFile()
-    cities_data=json_file.read('city_existing.json')
+    cities_data = json_file.read('city_existing.json')
     print(cities_data)
     cities = Cities(cities_data)
-    #cities.init(cities_data)
+    # cities.init(cities_data)
     # print(cities)
     game = CityGame(cities)
     # print(game)
 
     # Создайте экземпляр GameManager и вызовите его, чтобы начать игру
-    game_manager = GameManager(json_file, cities, game)
+    game_manager = GameManager(cities_data, cities, game)
     game_manager.call()
 
 # json_file = JsonFile()
