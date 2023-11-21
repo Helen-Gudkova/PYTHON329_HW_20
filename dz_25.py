@@ -1,6 +1,5 @@
 from typing import Tuple, Dict, Any
 
-
 class CustomMeta(type):
     """
     Метакласс,который автоматически добавляет новое поле и метод в классы,
