@@ -1,0 +1,50 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "definitions": {
+        "CurrentWeatherSchema": {
+            "properties": {
+                "city": {
+                    "title": "city",
+                    "type": "string"
+                },
+                "description": {
+                    "title": "description",
+                    "type": "string"
+                },
+                "humidity": {
+                    "title": "humidity",
+                    "type": [
+                        "integer",
+                        "null"
+                    ],
+                    "minimum": 0,
+                    "maximum": 100
+                },
+                "temperature": {
+                    "title": "temperature",
+                    "type": "number",
+                    "format": "float",
+                    "minimum": -100,
+                    "maximum": 100
+                },
+                "wind_speed": {
+                    "title": "wind_speed",
+                    "type": [
+                        "number",
+                        "null"
+                    ],
+                    "format": "float",
+                    "minimum": 0
+                }
+            },
+            "type": "object",
+            "required": [
+                "city",
+                "description",
+                "temperature"
+            ],
+            "additionalProperties": false
+        }
+    },
+    "$ref": "#/definitions/CurrentWeatherSchema"
+}
